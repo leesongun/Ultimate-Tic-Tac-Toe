@@ -33,7 +33,7 @@ public:
 		}
 		return board_data[index];
 	}
-	unsigned int numsiualation()
+	unsigned int numsimualation()
 	{
 		return search_data[0].num_simul;
 	}
@@ -52,14 +52,19 @@ private:
 		{
 			if (board_data[index].end())
 			{
-				++search_data[index].num_simul;
+#define BIG_NUMBER INT_MAX
+				search_data[index].num_simul = (BIG_NUMBER>>3);
 				value_type reward = board_data[index].win() ? 1 : DRAW_REWARD;
-				search_data[index].value_sum += reward;
+				search_data[index].value_sum = reward*BIG_NUMBER;
 				return { 1, reward };
+#undef BIG_NUMBER
+				//이게 영향을 주는 경우를 생각해보면
+				//얘가 root node의 direct child node인 경우인데
+				//비기는 경우->어차피 수는 하나
+				//이기는 경우->두면 무조건 좋지
 			}
 			//generate possible moves
 			search_data[index].child_index_start = board_data.size();
-			//board_data[index].generate_moves(board_data);
 			{
 				board temp = board_data[index];
 				temp.generate_moves(board_data);
@@ -69,10 +74,7 @@ private:
 			{
 				board temp = board_data[i];
 				while (!temp.end())
-				{
-					//temp.play(rand() % 9);
 					temp.randplay();
-				}
 				value_type reward = temp.win() ? 1 : DRAW_REWARD;
 				if (temp.gett() != board_data[i].gett())
 					reward = -reward;
@@ -95,7 +97,6 @@ private:
 		}
 		//const auto &[a, b] = _search(i);
 		auto result = _search(node_to_search);
-		//
 		result.second *= -1;
 		search_data[index].num_simul += result.first;
 		search_data[index].value_sum += result.second;
@@ -108,6 +109,6 @@ private:
 		unsigned int child_index_start, child_index_end;
 	};
 	std::vector <node> search_data;
-	std::vector </*const*/ board> board_data;//인텔리 센스로 확인할때는 const board로 하고 컴파일할때는 board로
+	std::vector </*const*/ board> board_data;
 	float c;
 };

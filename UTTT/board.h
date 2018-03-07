@@ -50,7 +50,7 @@ public:
 				{
 					board temp = *this;
 					temp.play(i, a);
-					v.push_back(temp);
+					v.push_back(std::move(temp));
 				}
 			}
 		}
@@ -61,7 +61,7 @@ public:
 			{
 				board temp = *this;
 				temp.play(pb, a);
-				v.push_back(temp);
+				v.push_back(std::move(temp));
 			}
 		}
 	}
