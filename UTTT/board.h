@@ -65,7 +65,7 @@ public:
 			}
 		}
 	}
-	void randplay()
+	inline void randplay()
 	{
 		if (pb == 9)
 			pb = rand_tbl2[playable][fastrand() * (9 - __popcnt16(playable)) >> RAND_SHIFT];
@@ -75,8 +75,9 @@ public:
 			play(pb, rand_tbl[temp][fastrand() * (9 - __popcnt16(temp)) >> RAND_SHIFT]);
 		}
 	}
+	std::vector<int> tovector();
 protected:
-	void play(unsigned char pb, unsigned short a)
+	inline void play(unsigned char pb, unsigned short a)
 	{
 		unsigned short b = 1 << pb;
 		if (::win(bb[t ^= 1][pb] |= a))
@@ -96,6 +97,5 @@ private:
 	unsigned short playable;
 	unsigned char pb;//playing board
 	unsigned char t;
-	//friend class searcher;
 };
 std::ostream &operator<<(std::ostream& os, const board& b);

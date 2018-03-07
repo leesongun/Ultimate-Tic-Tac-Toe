@@ -30,10 +30,7 @@
     <ClInclude Include="simple MCTS node.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="neural network.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="alphazero.h">
+    <ClInclude Include="AZ MCTS.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,24 +1,26 @@
 #pragma once
 #include <vector>
+#include <time.h>
 #include "board.h"
-typedef int value_type;
+typedef float value_type;
 #define DRAW_REWARD 0
+class evaluater;
 class searcher
 {
 public:
-	searcher(board x, float c/*, size_t max = 0x100000*/):
+	searcher(board x,float c/*, size_t max = 0x100000*/) :
 		search_data(1),
 		board_data({ x }),
 		c(c)
 	{}
 	void search(unsigned int trials)
 	{
-		do _search(0);while (--trials);
+		do _search(0); while (--trials);
 	}
 	void search_within_time(unsigned int second)
 	{
 		clock_t end = clock() + second * CLOCKS_PER_SEC;
-		do _search(0);while (clock() < end);
+		do _search(0); while (clock() < end);
 	}
 	board getresult()
 	{
@@ -38,11 +40,11 @@ public:
 		return search_data[0].num_simul;
 	}
 protected:
-	/*constexpr*/ inline float UCT(unsigned int index, unsigned int parent_total_simul) const
+	/*constexpr*/ float UCT(unsigned int index, unsigned int parent_total_simul) const
 	{
 		return //search_data[index].num_simul? 
-			(float)search_data[index].value_sum / search_data[index].num_simul + sqrtf(c * log(parent_total_simul) / search_data[index].num_simul)
-				//: FLT_MAX
+			(float)search_data[index].value_sum / search_data[index].num_simul + search_data[index].prob * sqrtf(c * log(parent_total_simul) / search_data[index].num_simul)
+			//: FLT_MAX
 			;
 	}
 private:
@@ -88,7 +90,7 @@ private:
 		{
 			float temp = UCT(i, search_data[index].num_simul);
 			if (temp > max_UCT)
-			{	
+			{
 				max_UCT = temp;
 				node_to_search = i;
 			}
@@ -106,6 +108,7 @@ private:
 		value_type value_sum;
 		unsigned int num_simul;
 		unsigned int child_index_start, child_index_end;
+		float prob;
 	};
 	std::vector <node> search_data;
 	std::vector </*const*/ board> board_data;//인텔리 센스로 확인할때는 const board로 하고 컴파일할때는 board로

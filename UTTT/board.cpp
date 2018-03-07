@@ -54,8 +54,3 @@ void board::printpb() const
 		}
 	}
 }
-std::ostream & operator<<(std::ostream & os, const board & b)
-{
-	b.print();
-	return os;
-}
