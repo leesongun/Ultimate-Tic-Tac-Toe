@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #define VAR_CONST 2
 #define PRINT_RESULTS
-//multithreading required.
+//todo:implement multithreading
 float find_c(unsigned int plays, unsigned int num, float min, float max, float error)
 {
 	float c[2] = {min, max};

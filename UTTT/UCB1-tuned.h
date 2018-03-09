@@ -1,4 +1,6 @@
 #pragma once
+//todo:implement UCB1-tuned
+//https://orbi.uliege.be/bitstream/2268/132793/1/paper88.pdf
 #include <vector>
 #include "board.h"
 typedef int value_type;

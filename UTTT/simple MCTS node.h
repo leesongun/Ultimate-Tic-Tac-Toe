@@ -1,4 +1,7 @@
 #pragma once
+//todo:implement thomson sampling with posterior reshaping
+//http://eprints.fri.uni-lj.si/3504/1/63100285-Katja_Tuma-Drevesno_preiskovanje_Monte_Carlo_s_Thompsonovim_vzor%C4%8Denjem_pri_igri_Prebivalci_otoka_Catan_(3).pdf
+
 #include <vector>
 #include "board.h"
 typedef int value_type;
