@@ -3,23 +3,22 @@
 #include "board.h"
 typedef int value_type;
 #define DRAW_REWARD 0
-#define FPU 0.3 // first play urgency
 class searcher
 {
 public:
-	searcher(board x, float c/*, size_t max = 0x100000*/):
+	searcher(board x, float c/*, size_t max = 0x100000*/) :
 		search_data(1),
 		board_data({ x }),
 		c(c)
 	{}
 	void search(unsigned int trials)
 	{
-		do _search(0);while (--trials);
+		do _search(0); while (--trials);
 	}
 	void search_within_time(unsigned int second)
 	{
 		clock_t end = clock() + second * CLOCKS_PER_SEC;
-		do _search(0);while (clock() < end);
+		do _search(0); while (clock() < end);
 	}
 	board getresult()
 	{
@@ -43,7 +42,7 @@ protected:
 	{
 		return //search_data[index].num_simul? 
 			(float)search_data[index].value_sum / search_data[index].num_simul + sqrtf(c * log(parent_total_simul) / search_data[index].num_simul)
-				//: FPU
+			//: FLT_MAX
 			;
 	}
 private:
@@ -54,9 +53,9 @@ private:
 			if (board_data[index].end())
 			{
 #define BIG_NUMBER INT_MAX
-				search_data[index].num_simul = (BIG_NUMBER>>3);
+				search_data[index].num_simul = (BIG_NUMBER >> 3);
 				value_type reward = board_data[index].win() ? 1 : DRAW_REWARD;
-				search_data[index].value_sum = reward*BIG_NUMBER;
+				search_data[index].value_sum = reward * BIG_NUMBER;
 				return { 1, reward };
 #undef BIG_NUMBER
 				//이게 영향을 주는 경우를 생각해보면
@@ -91,7 +90,7 @@ private:
 		{
 			float temp = UCT(i, search_data[index].num_simul);
 			if (temp > max_UCT)
-			{	
+			{
 				max_UCT = temp;
 				node_to_search = i;
 			}
